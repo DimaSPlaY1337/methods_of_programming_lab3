@@ -80,7 +80,7 @@ def nist_block_frequency(bin_seq, block_size=128):
         pi = sum(block) / block_size #доля единиц в этом блоке
         chi_sq += 4 * block_size * (pi - 0.5)**2
     from scipy.special import gammaincc
-    return gammaincc(N / 2, chi_sq / 2)
+    return gammaincc(N / 2, chi_sq / 2)#считаем проценты. перевод значения Хи-квадрат в p-value
 
 def nist_runs(bin_seq):
     n = len(bin_seq)
@@ -139,7 +139,7 @@ def main():
         # 3. Вычисление статистик для первой выборки (в качестве примера)
         sample = samples[0]
         mean = np.mean(sample)
-        std_dev = np.std(sample)#абсолютный разброс
+        std_dev = np.std(sample)#средний размер отклонения
         cv = (std_dev / mean) * 100#коэффицент вариации
         print(f"Среднее: {mean:.2f}, Отклонение: {std_dev:.2f}, Коэфф. вариации: {cv:.2f}%")
         
@@ -180,7 +180,8 @@ def main():
     plt.figure(figsize=(10, 6))
     for name, t in times.items():
         plt.plot(sizes, t, marker='o', label=name)
-        
+
+    plt.ticklabel_format(axis='x', style='plain')    
     plt.title('Сравнение скорости генераторов')
     plt.xlabel('Количество элементов (шт)')
     plt.ylabel('Время генерации (сек)')
